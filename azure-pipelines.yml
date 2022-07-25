@@ -1,12 +1,13 @@
 trigger:
 - '*'
 stages:
-- stage: 'Build' 
-  jobs:
-   - job: 'Build'
-  pool: 'ubuntu-latest'
-  variables:
-   - group: 'Build'
+  - stage: 'Build'
   
-    
-  displayName: 'The stage is $(deploymentStage)'
+    jobs:
+    - job: 'Build'
+      pool: 'ubuntu-latest'
+      variables:
+      - group: 'Build'
+      
+      steps:
+      - script: 'echo $(deploymentStage)'
