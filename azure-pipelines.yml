@@ -1,13 +1,12 @@
+
 trigger:
 - '*'
-stages:
-  - stage: 'Build'
-  
-    jobs:
-    - job: 'Build'
-      pool: 'ubuntu-latest'
-      variables:
-      - group: 'Build'
-      
-      steps:
-      - script: 'echo $(deploymentStage)'
+
+pool: 'ubuntu-20.04'
+
+variables:
+- group: 'Build'
+
+steps:
+
+- script: 'echo $(thedeploymennt)'
