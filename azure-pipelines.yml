@@ -6,5 +6,5 @@ stages:
     - job: 'Build'
   pool: 'ubuntu-latest'
   variables:
-   - group: 'Relese'
-  displayName: 'The stage is $(WebApp)'
+   - group: 'Build'
+  displayName: 'The stage is $(deploymentStage)'
