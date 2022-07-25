@@ -2,7 +2,7 @@ trigger:
 - '*'
 
 stages:
-- stage:
+- stage: 'Build'
   jobs:
   - job: 'Build'
 
@@ -62,26 +62,29 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 
+- stage: 'Deploy'
+  dependsOn: 'Build'
   jobs:
-  - job: 'Release'
-    dependsOn: 'Build'
+  - deployment: 'Release'
     pool:
       vmImage: 'ubuntu-20.04'
-      demands: 
-      - npm
+
+    environment: 'dev'
 
     variables:
     - group: 'Release'
-    
-    steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'current'
-        artifactName: 'drop'
-        targetPath: '$(Pipeline.Workspace)'
-    
-    - script: 'echo $(WebApp)'
-      displayName: 'The web app name is: $(WebApp)'
-    
-     
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:    
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'drop'
+              targetPath: '$(Pipeline.Workspace)'
+
+          - script: 'echo $(WebApp)'
+            displayName: 'The web app name is: $(WebApp)'
+
